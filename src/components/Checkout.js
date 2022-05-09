@@ -1,3 +1,5 @@
+import Subtotal from "./Subtotal";
+
 function Checkout() {
   return (
     <div className="checkout">
@@ -11,7 +13,9 @@ function Checkout() {
           <h2 className="checkout__title">Your Shopping Cart</h2>
         </div>
       </div>
-      <div className="checkout__right"></div>
+      <div className="checkout__right">
+        <Subtotal />
+      </div>
     </div>
   );
 }
