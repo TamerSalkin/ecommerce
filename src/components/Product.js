@@ -1,6 +1,7 @@
 import { useStateValue } from "../state/StateProvider";
+import { v4 } from "uuid";
 
-function Product({ id, title, image, price, rating }) {
+function Product({ title, image, price, rating }) {
   const [state, dispatch] = useStateValue();
 
   const addToCart = () => {
@@ -8,7 +9,7 @@ function Product({ id, title, image, price, rating }) {
     dispatch({
       type: "ADD_TO_CART",
       item: {
-        id: id,
+        id: v4(),
         title: title,
         image: image,
         price: price,
@@ -28,7 +29,7 @@ function Product({ id, title, image, price, rating }) {
         <div className="product__rating">
           {Array(rating)
             .fill()
-            .map((a) => (
+            .map(() => (
               <p>🌟</p>
             ))}
         </div>
