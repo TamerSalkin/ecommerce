@@ -13,6 +13,7 @@ function Checkout() {
           alt=""
         />
         <div>
+          <h3>Hello, {state.user ? state.user.email : "Guest"}</h3>
           <h2 className="checkout__title">Your Shopping Cart</h2>
           {state.cart.map((item) => (
             <CheckoutProduct

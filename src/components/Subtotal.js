@@ -1,8 +1,10 @@
 import CurrencyFormat from "react-currency-format";
 import { useStateValue } from "../state/StateProvider";
 import { getCartTotal } from "../state/reducer";
+import { useNavigate } from "react-router-dom";
 
 function Subtotal() {
+  const navigate = useNavigate();
   const [state, dispatch] = useStateValue();
 
   return (
@@ -26,7 +28,7 @@ function Subtotal() {
         thousandSeparator={true}
         prefix={"$"}
       />
-      <button>Proceed to checkout</button>
+      <button onClick={(e) => navigate("/payment")}>Proceed to checkout</button>
     </div>
   );
 }
