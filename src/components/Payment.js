@@ -1,9 +1,38 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import CurrencyFormat from "react-currency-format";
+import { Link, useNavigate } from "react-router-dom";
 import { useStateValue } from "../state/StateProvider";
 import CheckoutProduct from "./CheckoutProduct";
+import PaymentInputs from "./PaymentInputs";
+import { getCartTotal } from "../state/reducer";
+import { db } from "../firebase";
 
 function Payment() {
+  const navigate = useNavigate();
   const [state, dispatch] = useStateValue();
+  const [error, setError] = useState(null);
+  const [disabled, setDisabled] = useState(true);
+  const [succeeded, setSucceeded] = useState(false);
+  const [processing, setProcessing] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setProcessing(true);
+    db.collection("users")
+      .doc(state.user?.uid)
+      .collection("orders")
+      .doc(state.id)
+      .set({
+        cart: state.cart,
+        amount: getCartTotal(state.cart),
+        // created: state.created,
+      });
+    setTimeout(() => {
+      navigate("/orders");
+      dispatch({
+        type: "EMPTY_CART",
+      });
+    }, "1500");
+  };
   return (
     <div className="payment">
       <div className="payment__container">
@@ -40,7 +69,35 @@ function Payment() {
           <div className="payment__title">
             <h3>Payment Method</h3>
           </div>
-          <div className="payment__details"></div>
+          <div className="payment__details">
+            <form onSubmit={handleSubmit}>
+              <PaymentInputs setDisabled={setDisabled} />
+              <div className="payment__priceContainer">
+                <CurrencyFormat
+                  renderText={(value) => (
+                    <>
+                      <p>
+                        Subtotal ({state.cart?.length} items):
+                        <strong>{value}</strong>
+                      </p>
+                      <small className="subtotal__gift">
+                        <input type="checkbox" />
+                        This order contains a gift
+                      </small>
+                    </>
+                  )}
+                  decimalScale={2}
+                  value={getCartTotal(state.cart)}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"$"}
+                />
+                <button disabled={processing || disabled || succeeded}>
+                  <span>{processing ? "Processing" : "Buy Now"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
