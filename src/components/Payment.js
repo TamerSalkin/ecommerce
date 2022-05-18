@@ -10,7 +10,6 @@ import { db } from "../firebase";
 function Payment() {
   const navigate = useNavigate();
   const [state, dispatch] = useStateValue();
-  const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [succeeded, setSucceeded] = useState(false);
   const [processing, setProcessing] = useState("");
@@ -77,8 +76,8 @@ function Payment() {
                   renderText={(value) => (
                     <>
                       <p>
-                        Subtotal ({state.cart?.length} items):
-                        <strong>{value}</strong>
+                        Order Total ({state.cart?.length} items):
+                        <strong> {value}</strong>
                       </p>
                       <small className="subtotal__gift">
                         <input type="checkbox" />
