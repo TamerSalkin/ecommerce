@@ -15,7 +15,6 @@ function App() {
   useEffect(() => {
     //will only run once when the app component loads... it's a listener
     auth.onAuthStateChanged((authUser) => {
-      console.log("THE USER IS >>>", authUser);
       if (authUser) {
         // the user just logged in/ the was user logged in
         dispatch({
@@ -31,6 +30,7 @@ function App() {
       }
     });
   }, []);
+  useEffect(() => {}, [state.cart]);
   // BEM convention. We use two underscore in classnames for this.
   return (
     <Router>

@@ -11,7 +11,6 @@ function Payment() {
   const navigate = useNavigate();
   const [state, dispatch] = useStateValue();
   const [disabled, setDisabled] = useState(true);
-  const [succeeded, setSucceeded] = useState(false);
   const [processing, setProcessing] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -91,7 +90,9 @@ function Payment() {
                   thousandSeparator={true}
                   prefix={"$"}
                 />
-                <button disabled={processing || disabled || succeeded}>
+                <button
+                  disabled={processing || disabled || state.cart.length === 0}
+                >
                   <span>{processing ? "Processing" : "Buy Now"}</span>
                 </button>
               </div>
